@@ -1,5 +1,4 @@
 #include "ui_helpers.h"
-
 sf::ConvexShape createRoundedRectangle(float width, float height, float radius)
 {
     sf::ConvexShape shape;
@@ -16,7 +15,6 @@ sf::ConvexShape createRoundedRectangle(float width, float height, float radius)
 
     return shape;
 }
-
 sf::Text createTitle(sf::Font& font, sf::Window& window) {
     sf::Text title;
     title.setFont(font);
@@ -30,7 +28,7 @@ sf::Text createTitle(sf::Font& font, sf::Window& window) {
 	return title;
 }
 
-sf::Text enterPrompt(sf::Font& font) {
+sf::Text createEnterPrompt(sf::Font& font) {
 	sf::Text enterPrompt;
 	enterPrompt.setFont(font);
 	enterPrompt.setString("Press Enter to start the game");
@@ -40,12 +38,12 @@ sf::Text enterPrompt(sf::Font& font) {
 	return enterPrompt;
 }
 
-sf::ConvexShape createrStartButton(sf::Font& font, sf::Window& window) {
+sf::ConvexShape createStartButton() {
 	sf::ConvexShape startButton = createRoundedRectangle(220, 70, 15);
 	startButton.setPosition(290, 190);
 	return startButton;
 }
-sf::Text createStartText(sf::Font& font, sf::Window& window, sf::ConvexShape& startButton) {
+sf::Text createStartText(sf::Font& font, sf::ConvexShape& startButton) {
 	sf::Text startText;
 	startText.setFont(font);
 	startText.setString("Start");
@@ -57,12 +55,12 @@ sf::Text createStartText(sf::Font& font, sf::Window& window, sf::ConvexShape& st
 	return startText;
 }
 
-sf::ConvexShape createOptionsButton(sf::Font& font, sf::Window& window) {
+sf::ConvexShape createOptionsButton() {
 	sf::ConvexShape optionsButton = createRoundedRectangle(200, 50, 15);
 	optionsButton.setPosition(300, 300);
 	return optionsButton;
 }
-sf::Text createOptionsTitle(sf::Font& font, sf::Window& window, sf::ConvexShape& optionsButton) {
+sf::Text createOptionsText(sf::Font& font, sf::ConvexShape& optionsButton) {
 	sf::Text optionsText;
 	optionsText.setFont(font);
 	optionsText.setString("Options");
@@ -74,12 +72,12 @@ sf::Text createOptionsTitle(sf::Font& font, sf::Window& window, sf::ConvexShape&
 	return optionsText;
 }
 
-sf::ConvexShape createExitButton(sf::Font& font, sf::Window& window) {
+sf::ConvexShape createExitButton() {
 	sf::ConvexShape exitButton = createRoundedRectangle(200, 50, 15);
 	exitButton.setPosition(300, 400);
 	return exitButton;
 }
-sf::Text createExitText(sf::Font& font, sf::Window& window, sf::ConvexShape& exitButton) {
+sf::Text createExitText(sf::Font& font, sf::ConvexShape& exitButton) {
 	sf::Text exitText;
 	exitText.setFont(font);
 	exitText.setString("Exit");
@@ -98,85 +96,126 @@ sf::RectangleShape createOptionsPanel(sf::Window& window) {
 	return optionsPanel;
 }
 
+sf::RectangleShape createIncreaseBoardSizeButton(sf::Window& window) {
+	sf::RectangleShape increaseBoardSizeButton(sf::Vector2f(50, 50));
+	increaseBoardSizeButton.setPosition(window.getSize().x - 150, 150);
+	return increaseBoardSizeButton;
+}
+sf::Text createIncreaseBoardSizeText(sf::Font& font, sf::RectangleShape& increaseBoardSizeButton) {
+	sf::Text increaseBoardSizeText;
+	increaseBoardSizeText.setFont(font);
+	increaseBoardSizeText.setString("+");
+	increaseBoardSizeText.setCharacterSize(24);
+	increaseBoardSizeText.setFillColor(sf::Color::Black);
+	sf::FloatRect textRect = increaseBoardSizeText.getLocalBounds();
+	increaseBoardSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	increaseBoardSizeText.setPosition(sf::Vector2f(increaseBoardSizeButton.getPosition().x + increaseBoardSizeButton.getGlobalBounds().width / 2.0f, increaseBoardSizeButton.getPosition().y + increaseBoardSizeButton.getGlobalBounds().height / 2.0f));
+	return increaseBoardSizeText;
+}
 
-sf::RectangleShape increaseBoardSizeButton(sf::Vector2f(50, 50));
-increaseBoardSizeButton.setPosition(window.getSize().x - 150, 150);
-sf::Text increaseBoardSizeText;
-increaseBoardSizeText.setFont(font);
-increaseBoardSizeText.setString("+");
-increaseBoardSizeText.setCharacterSize(24);
-increaseBoardSizeText.setFillColor(sf::Color::Black);
-textRect = increaseBoardSizeText.getLocalBounds();
-increaseBoardSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-increaseBoardSizeText.setPosition(sf::Vector2f(increaseBoardSizeButton.getPosition().x + increaseBoardSizeButton.getGlobalBounds().width / 2.0f, increaseBoardSizeButton.getPosition().y + increaseBoardSizeButton.getGlobalBounds().height / 2.0f));
+sf::RectangleShape createDecreaseBoardSizeButton(sf::Window& window) {
+	sf::RectangleShape decreaseBoardSizeButton(sf::Vector2f(50, 50));
+	decreaseBoardSizeButton.setPosition(window.getSize().x - 100, 150);
+	return decreaseBoardSizeButton;
+}
+sf::Text createDecreaseBoardSizeText(sf::Font& font, sf::RectangleShape& decreaseBoardSizeButton) {
+	sf::Text decreaseBoardSizeText;
+	decreaseBoardSizeText.setFont(font);
+	decreaseBoardSizeText.setString("-");
+	decreaseBoardSizeText.setCharacterSize(24);
+	decreaseBoardSizeText.setFillColor(sf::Color::Black);
+	sf::FloatRect textRect = decreaseBoardSizeText.getLocalBounds();
+	decreaseBoardSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	decreaseBoardSizeText.setPosition(sf::Vector2f(decreaseBoardSizeButton.getPosition().x + decreaseBoardSizeButton.getGlobalBounds().width / 2.0f, decreaseBoardSizeButton.getPosition().y + decreaseBoardSizeButton.getGlobalBounds().height / 2.0f));
+	return decreaseBoardSizeText;
+}
 
-sf::RectangleShape decreaseBoardSizeButton(sf::Vector2f(50, 50));
-decreaseBoardSizeButton.setPosition(window.getSize().x - 100, 150);
-sf::Text decreaseBoardSizeText;
-decreaseBoardSizeText.setFont(font);
-decreaseBoardSizeText.setString("-");
-decreaseBoardSizeText.setCharacterSize(24);
-decreaseBoardSizeText.setFillColor(sf::Color::Black);
-textRect = decreaseBoardSizeText.getLocalBounds();
-decreaseBoardSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-decreaseBoardSizeText.setPosition(sf::Vector2f(decreaseBoardSizeButton.getPosition().x + decreaseBoardSizeButton.getGlobalBounds().width / 2.0f, decreaseBoardSizeButton.getPosition().y + decreaseBoardSizeButton.getGlobalBounds().height / 2.0f));
+sf::RectangleShape createIncreaseLengthSizeButton(sf::Window& window) {
+	sf::RectangleShape increaseLengthSizeButton(sf::Vector2f(50, 50));
+	increaseLengthSizeButton.setPosition(window.getSize().x - 150, 200);
+	return increaseLengthSizeButton;
+}
+sf::Text createIncreaseLengthSizeText(sf::Font& font, sf::RectangleShape& increaseLengthSizeButton) {
+	sf::Text increaseLengthSizeText;
+	increaseLengthSizeText.setFont(font);
+	increaseLengthSizeText.setString("+");
+	increaseLengthSizeText.setCharacterSize(24);
+	increaseLengthSizeText.setFillColor(sf::Color::Black);
+	sf::FloatRect textRect = increaseLengthSizeText.getLocalBounds();
+	increaseLengthSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	increaseLengthSizeText.setPosition(sf::Vector2f(increaseLengthSizeButton.getPosition().x + increaseLengthSizeButton.getGlobalBounds().width / 2.0f, increaseLengthSizeButton.getPosition().y + increaseLengthSizeButton.getGlobalBounds().height / 2.0f));
+	return increaseLengthSizeText;
+}
 
-sf::RectangleShape increaseLengthSizeButton(sf::Vector2f(50, 50));
-increaseLengthSizeButton.setPosition(window.getSize().x - 150, 200);
-sf::Text increaseLengthSizeText;
-increaseLengthSizeText.setFont(font);
-increaseLengthSizeText.setString("+");
-increaseLengthSizeText.setCharacterSize(24);
-increaseLengthSizeText.setFillColor(sf::Color::Black);
-textRect = increaseLengthSizeText.getLocalBounds();
-increaseLengthSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-increaseLengthSizeText.setPosition(sf::Vector2f(increaseLengthSizeButton.getPosition().x + increaseLengthSizeButton.getGlobalBounds().width / 2.0f, increaseLengthSizeButton.getPosition().y + increaseLengthSizeButton.getGlobalBounds().height / 2.0f));
+sf::RectangleShape createDecreaseLengthSizeButton(sf::Window& window) {
+	sf::RectangleShape decreaseLengthSizeButton(sf::Vector2f(50, 50));
+	decreaseLengthSizeButton.setPosition(window.getSize().x - 100, 200);
+	return decreaseLengthSizeButton;
+}
+sf::Text createDecreaseLengthSizeText(sf::Font& font, sf::RectangleShape& decreaseLengthSizeButton) {
+	sf::Text decreaseLengthSizeText;
+	decreaseLengthSizeText.setFont(font);
+	decreaseLengthSizeText.setString("-");
+	decreaseLengthSizeText.setCharacterSize(24);
+	decreaseLengthSizeText.setFillColor(sf::Color::Black);
+	sf::FloatRect textRect = decreaseLengthSizeText.getLocalBounds();
+	decreaseLengthSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	decreaseLengthSizeText.setPosition(sf::Vector2f(decreaseLengthSizeButton.getPosition().x + decreaseLengthSizeButton.getGlobalBounds().width / 2.0f, decreaseLengthSizeButton.getPosition().y + decreaseLengthSizeButton.getGlobalBounds().height / 2.0f));
+	return decreaseLengthSizeText;
+}
 
-sf::RectangleShape decreaseLengthSizeButton(sf::Vector2f(50, 50));
-decreaseLengthSizeButton.setPosition(window.getSize().x - 100, 200);
-sf::Text decreaseLengthSizeText;
-decreaseLengthSizeText.setFont(font);
-decreaseLengthSizeText.setString("-");
-decreaseLengthSizeText.setCharacterSize(24);
-decreaseLengthSizeText.setFillColor(sf::Color::Black);
-textRect = decreaseLengthSizeText.getLocalBounds();
-decreaseLengthSizeText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-decreaseLengthSizeText.setPosition(sf::Vector2f(decreaseLengthSizeButton.getPosition().x + decreaseLengthSizeButton.getGlobalBounds().width / 2.0f, decreaseLengthSizeButton.getPosition().y + decreaseLengthSizeButton.getGlobalBounds().height / 2.0f));
+sf::RectangleShape createEasyButton(sf::Window& window) {
+	sf::RectangleShape easyButton(sf::Vector2f(150, 50));
+	easyButton.setPosition(window.getSize().x - 150, 250);
+	return easyButton;
+}
+sf::Text createEasyText(sf::Font& font, sf::RectangleShape& easyButton) {
+	sf::Text easyText;
+	easyText.setFont(font);
+	easyText.setString("Easy");
+	easyText.setCharacterSize(24);
+	easyText.setFillColor(sf::Color::Black);
+	sf::FloatRect textRect = easyText.getLocalBounds();
+	easyText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	easyText.setPosition(sf::Vector2f(easyButton.getPosition().x + easyButton.getGlobalBounds().width / 2.0f, easyButton.getPosition().y + easyButton.getGlobalBounds().height / 2.0f));
+	return easyText;
+}
 
-sf::RectangleShape easyButton(sf::Vector2f(150, 50));
-easyButton.setPosition(window.getSize().x - 150, 250);
-sf::Text easyText;
-easyText.setFont(font);
-easyText.setString("Easy");
-easyText.setCharacterSize(24);
-easyText.setFillColor(sf::Color::Black);
-textRect = easyText.getLocalBounds();
-easyText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-easyText.setPosition(sf::Vector2f(easyButton.getPosition().x + easyButton.getGlobalBounds().width / 2.0f, easyButton.getPosition().y + easyButton.getGlobalBounds().height / 2.0f));
+sf::RectangleShape createMediumButton(sf::Window& window) {
+	sf::RectangleShape mediumButton(sf::Vector2f(150, 50));
+	mediumButton.setPosition(window.getSize().x - 150, 300);
+	return mediumButton;
+}
+sf::Text createMediumText(sf::Font& font, sf::RectangleShape& mediumButton) {
+	sf::Text mediumText;
+	mediumText.setFont(font);
+	mediumText.setString("Medium");
+	mediumText.setCharacterSize(24);
+	mediumText.setFillColor(sf::Color::Black);
+	sf::FloatRect textRect = mediumText.getLocalBounds();
+	mediumText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	mediumText.setPosition(sf::Vector2f(mediumButton.getPosition().x + mediumButton.getGlobalBounds().width / 2.0f, mediumButton.getPosition().y + mediumButton.getGlobalBounds().height / 2.0f));
+	return mediumText;
+}
 
-sf::RectangleShape mediumButton(sf::Vector2f(150, 50));
-mediumButton.setPosition(window.getSize().x - 150, 300);
-sf::Text mediumText;
-mediumText.setFont(font);
-mediumText.setString("Medium");
-mediumText.setCharacterSize(24);
-mediumText.setFillColor(sf::Color::Black);
-textRect = mediumText.getLocalBounds();
-mediumText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-mediumText.setPosition(sf::Vector2f(mediumButton.getPosition().x + mediumButton.getGlobalBounds().width / 2.0f, mediumButton.getPosition().y + mediumButton.getGlobalBounds().height / 2.0f));
+sf::RectangleShape createHardButton(sf::Window& window) {
+	sf::RectangleShape hardButton(sf::Vector2f(150, 50));
+	hardButton.setPosition(window.getSize().x - 150, 350);
+	return hardButton;
+}
+sf::Text createHardText(sf::Font& font, sf::RectangleShape& hardButton) {
+	sf::Text hardText;
+	hardText.setFont(font);
+	hardText.setString("Hard");
+	hardText.setCharacterSize(24);
+	hardText.setFillColor(sf::Color::Black);
+	sf::FloatRect textRect = hardText.getLocalBounds();
+	hardText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	hardText.setPosition(sf::Vector2f(hardButton.getPosition().x + hardButton.getGlobalBounds().width / 2.0f, hardButton.getPosition().y + hardButton.getGlobalBounds().height / 2.0f));
+	return hardText;
+}
 
-sf::RectangleShape hardButton(sf::Vector2f(150, 50));
-hardButton.setPosition(window.getSize().x - 150, 350);
-sf::Text hardText;
-hardText.setFont(font);
-hardText.setString("Hard");
-hardText.setCharacterSize(24);
-hardText.setFillColor(sf::Color::Black);
-textRect = hardText.getLocalBounds();
-hardText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-hardText.setPosition(sf::Vector2f(hardButton.getPosition().x + hardButton.getGlobalBounds().width / 2.0f, hardButton.getPosition().y + hardButton.getGlobalBounds().height / 2.0f));
-
-sf::Text winPlayer(sf::Font& font) {
+sf::Text createWinPlayerText(sf::Font& font) {
 	sf::Text winPlayer;
 	winPlayer.setFont(font);
 	winPlayer.setString("Player X has won!");
@@ -185,8 +224,7 @@ sf::Text winPlayer(sf::Font& font) {
 	winPlayer.setStyle(sf::Text::Bold | sf::Text::Underlined);
 	return winPlayer;
 }
-
-sf::Text winAI(sf::Font& font){
+sf::Text createWinAIText(sf::Font& font){
 	sf::Text winAI;
 	winAI.setFont(font);
 	winAI.setString("AI has won!");
@@ -195,8 +233,7 @@ sf::Text winAI(sf::Font& font){
 	winAI.setStyle(sf::Text::Bold | sf::Text::Underlined);
 	return winAI;
 }
-
-sf::Text tie(sf::Font& font) {
+sf::Text createTieText(sf::Font& font) {
 	sf::Text tie;
 	tie.setFont(font);
 	tie.setString("Tie");
@@ -205,14 +242,13 @@ sf::Text tie(sf::Font& font) {
 	tie.setStyle(sf::Text::Bold | sf::Text::Underlined);
 	return tie;
 }
-
-sf::Text introText(sf::Font& font) {
+sf::Text createIntroText(sf::Font& font, sf::Window& window) {
 	sf::Text introText;
 	introText.setFont(font);
 	introText.setString("Gameplay Instructions:\n\nPlayer X starts the game.\n\nTo make a move, click on an empty cell.\n\nThe goal is to get a line of three of your own marks \n(vertical, horizontal, or diagonal).\n\nPress Enter to continue.");
 	introText.setCharacterSize(24);
 	introText.setFillColor(sf::Color::White);
-	introText.setPosition(50, 50);
+	introText.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 	return introText;
 }
 
