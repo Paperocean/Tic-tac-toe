@@ -19,6 +19,38 @@ enum GameState {
     WAITING_FOR_ENTER
 };
 
+void handleOptions(sf::Vector2i mousePos, int& boardSize, int& winLength,
+	sf::RectangleShape& increaseBoardSizeButton, sf::RectangleShape& decreaseBoardSizeButton,
+	sf::RectangleShape& increaseLengthSizeButton, sf::RectangleShape& decreaseLengthSizeButton,
+	sf::RectangleShape& easyButton, sf::RectangleShape& mediumButton, sf::RectangleShape& hardButton
+    ) {
+    if (increaseBoardSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+		boardSize++;
+	}
+    if (decreaseBoardSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+        if (boardSize > 3) {
+			boardSize--;
+		}
+	}
+    if (increaseLengthSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+		winLength++;
+	}
+    if (decreaseLengthSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+        if (winLength > 3) {
+			winLength--;
+		}
+	}
+    if (easyButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+		aiDifficulty = EASY;
+	}
+    if (mediumButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+		aiDifficulty = MEDIUM;
+	}
+    if (hardButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+		aiDifficulty = HARD;
+	}
+}
+
 void handleOptionsMenu(sf::RenderWindow& window, sf::Clock& clock, sf::RectangleShape& optionsPanel, float optionsPanelTargetX, float optionsPanelSpeed, bool& showOptions) {
     sf::Time dt = clock.restart();
 
@@ -54,31 +86,21 @@ void handleGameEvents(sf::RenderWindow& window, sf::Event& event, GameState& gam
     sf::RectangleShape& mediumButton, sf::Text& mediumText,
     sf::RectangleShape& hardButton, sf::Text& hardText,
     bool& showOptions, int& boardSize, int& winLength) {
-
-    if (event.type == sf::Event::Closed)
+    if (event.type == sf::Event::Closed) {
         window.close();
-
-    if (gameState == INTRO) {
-        window.clear(sf::Color(50, 50, 50));
-        window.draw(introText);
-        if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Enter) {
-                gameState = MENU;
-            }
-        }
     }
 
     if (event.type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        if (startButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-            if (gameState == MENU) {
-                game.setBoard(boardSize);
-                game.setWinLength(winLength);
-                gameState = WAITING_FOR_ENTER;
-            }
+
+        if (startButton.getGlobalBounds().contains(mousePos.x, mousePos.y) && gameState == MENU) {
+            game.setBoard(boardSize);
+            game.setWinLength(winLength);
+            gameState = WAITING_FOR_ENTER;
         }
+
         if (optionsButton.getGlobalBounds().contains(mousePos.x, mousePos.y) && gameState != PLAYING) {
-            if (gameState == MENU) {
+            if (gameState == MENU || gameState == HIDE_OPTIONS) {
                 gameState = OPTIONS;
                 showOptions = true;
             }
@@ -86,56 +108,33 @@ void handleGameEvents(sf::RenderWindow& window, sf::Event& event, GameState& gam
                 gameState = HIDE_OPTIONS;
                 showOptions = false;
             }
-            else if (gameState == HIDE_OPTIONS) {
-                gameState = OPTIONS;
-                showOptions = true;
-            }
         }
+
         if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
             window.close();
         }
-        if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Enter && gameState == WAITING_FOR_ENTER) {
+
+        if (showOptions) {
+            handleOptions(mousePos, boardSize, winLength, 
+				increaseBoardSizeButton, decreaseBoardSizeButton, increaseLengthSizeButton, decreaseLengthSizeButton,
+				easyButton, mediumButton, hardButton);
+        }
+    }
+
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Enter) {
+            if (gameState == INTRO) {
+                gameState = MENU;
+            }
+            else if (gameState == WAITING_FOR_ENTER) {
                 gameState = PLAYING;
             }
         }
-        if (showOptions) {
-            if (increaseBoardSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                boardSize++;
-            }
-            if (decreaseBoardSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                if (boardSize > 3) {
-                    boardSize--;
-                }
-            }
-            if (increaseLengthSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                if (winLength < boardSize)
-                    winLength++;
-            }
-            if (decreaseLengthSizeButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                if (winLength > 3) {
-                    winLength--;
-                }
-            }
-            if (easyButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                aiDifficulty = EASY;
-                easyButton.setFillColor(sf::Color::Green);
-                mediumButton.setFillColor(sf::Color::White);
-                hardButton.setFillColor(sf::Color::White);
-            }
-            else if (mediumButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                aiDifficulty = MEDIUM;
-                easyButton.setFillColor(sf::Color::White);
-                mediumButton.setFillColor(sf::Color::Green);
-                hardButton.setFillColor(sf::Color::White);
-            }
-            else if (hardButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                aiDifficulty = HARD;
-                easyButton.setFillColor(sf::Color::White);
-                mediumButton.setFillColor(sf::Color::White);
-                hardButton.setFillColor(sf::Color::Green);
-            }
-        }
+    }
+
+    if (gameState == INTRO) {
+        window.clear(sf::Color(50, 50, 50));
+        window.draw(introText);
     }
 }
 void handleGameState(sf::RenderWindow& window, sf::Event& event, GameState& gameState, TicTacToe& game,
@@ -347,7 +346,7 @@ int main() {
     // Inicjalizacja zegara
     sf::Clock clock;
     float optionsPanelTargetX = window.getSize().x - 200;
-    float optionsPanelSpeed = 200.0f;
+    float optionsPanelSpeed = 800.0f;
 
     // Ustawienie stanu gry
     GameState gameState = INTRO;

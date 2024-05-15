@@ -248,7 +248,10 @@ sf::Text createIntroText(sf::Font& font, sf::Window& window) {
 	introText.setString("Gameplay Instructions:\n\nPlayer X starts the game.\n\nTo make a move, click on an empty cell.\n\nThe goal is to get a line of three of your own marks \n(vertical, horizontal, or diagonal).\n\nPress Enter to continue.");
 	introText.setCharacterSize(24);
 	introText.setFillColor(sf::Color::White);
-	introText.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+	sf::FloatRect textRect = introText.getLocalBounds();
+	introText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	introText.setPosition(sf::Vector2f(window.getSize().x / 2.0f, window.getSize().y / 2.0f));
 	return introText;
 }
+
 
