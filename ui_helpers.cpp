@@ -33,7 +33,7 @@ sf::Text createEnterPrompt(sf::Font& font) {
 	enterPrompt.setFont(font);
 	enterPrompt.setString("Press Enter to start the game");
 	enterPrompt.setCharacterSize(24);
-	enterPrompt.setFillColor(sf::Color::White);
+	enterPrompt.setFillColor(sf::Color::Transparent);
 	enterPrompt.setPosition(50, 50);
 	return enterPrompt;
 }
@@ -219,27 +219,40 @@ sf::Text createWinPlayerText(sf::Font& font) {
 	sf::Text winPlayer;
 	winPlayer.setFont(font);
 	winPlayer.setString("Player X has won!");
-	winPlayer.setCharacterSize(24);
-	winPlayer.setFillColor(sf::Color::Red);
-	winPlayer.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	winPlayer.setCharacterSize(36); // Increase font size for emphasis
+	winPlayer.setFillColor(sf::Color(255, 69, 0)); // Orange-red color for a vibrant look
+	winPlayer.setStyle(sf::Text::Bold);
+	// Add some spacing between letters for better readability
+	winPlayer.setLetterSpacing(1);
+	// Optionally, add a drop shadow effect
+	winPlayer.setOutlineColor(sf::Color::Black);
+	winPlayer.setOutlineThickness(2);
 	return winPlayer;
 }
-sf::Text createWinAIText(sf::Font& font){
+
+sf::Text createWinAIText(sf::Font& font) {
 	sf::Text winAI;
 	winAI.setFont(font);
 	winAI.setString("AI has won!");
-	winAI.setCharacterSize(24);
-	winAI.setFillColor(sf::Color::Red);
-	winAI.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	winAI.setCharacterSize(36);
+	winAI.setFillColor(sf::Color(255, 69, 0));
+	winAI.setStyle(sf::Text::Bold);
+	winAI.setLetterSpacing(1);
+	winAI.setOutlineColor(sf::Color::Black);
+	winAI.setOutlineThickness(2);
 	return winAI;
 }
+
 sf::Text createTieText(sf::Font& font) {
 	sf::Text tie;
 	tie.setFont(font);
 	tie.setString("Tie");
-	tie.setCharacterSize(24);
-	tie.setFillColor(sf::Color::Red);
-	tie.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	tie.setCharacterSize(36);
+	tie.setFillColor(sf::Color(255, 69, 0));
+	tie.setStyle(sf::Text::Bold);
+	tie.setLetterSpacing(1);
+	tie.setOutlineColor(sf::Color::Black);
+	tie.setOutlineThickness(2);
 	return tie;
 }
 sf::Text createIntroText(sf::Font& font, sf::Window& window) {
@@ -254,4 +267,22 @@ sf::Text createIntroText(sf::Font& font, sf::Window& window) {
 	return introText;
 }
 
+sf::Text createRetryPrompt(sf::Font& font) {
+	sf::Text retryPrompt;
+	retryPrompt.setFont(font);
+	retryPrompt.setString("Press R to play again");
+	retryPrompt.setCharacterSize(24);
+	retryPrompt.setFillColor(sf::Color::White);
+	retryPrompt.setPosition(50, 100);
+	return retryPrompt;
+}
 
+sf::Text createMenuPrompt(sf::Font& font) {
+	sf::Text menuPrompt;
+	menuPrompt.setFont(font);
+	menuPrompt.setString("Press Enter to return to menu");
+	menuPrompt.setCharacterSize(24);
+	menuPrompt.setFillColor(sf::Color::White);
+	menuPrompt.setPosition(50, 150);
+	return menuPrompt;
+}

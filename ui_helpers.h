@@ -43,5 +43,7 @@ sf::Text createWinAIText(sf::Font& font);
 sf::Text createTieText(sf::Font& font);
 sf::Text createIntroText(sf::Font& font, sf::Window& window);
 
+sf::Text createRetryPrompt(sf::Font& font);
+sf::Text createMenuPrompt(sf::Font& font);
 
 #endif // UI_HELPERS_H
