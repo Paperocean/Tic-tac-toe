@@ -3,8 +3,7 @@
 #include <climits>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
-#include "tictactoe.h"
-#include "ui_helpers.h"
+#include "game.h"
 
 using namespace std;
 
@@ -18,7 +17,7 @@ enum GameState {
     GAME_OVER
 };
 
-void drawBoard(sf::RenderWindow& window, TicTacToe& game, sf::Font& font, int boardSize) {
+void drawBoard(sf::RenderWindow& window, Game& game, sf::Font& font, int boardSize) {
     //int boardSize = 5;
     float boardSizeF = static_cast<float>(boardSize);
     float windowSizeXF = static_cast<float>(window.getSize().x);
@@ -74,8 +73,6 @@ void drawBoard(sf::RenderWindow& window, TicTacToe& game, sf::Font& font, int bo
         window.draw(line2, 2, sf::Lines);
     }
 }
-
-// Function to create rounded rectangle shapes
 sf::ConvexShape createRoundedRect(float width, float height, float radius, sf::Color color, float outlineThickness, sf::Color outlineColor) {
     sf::ConvexShape shape;
     shape.setPointCount(30); // Adjust the point count for smoother edges
@@ -128,8 +125,6 @@ sf::ConvexShape createRoundedRect(float width, float height, float radius, sf::C
 
     return shape;
 }
-
-// Helper function to create text with shadow
 sf::Text createTextWithShadow(const std::string& str, const sf::Font& font, unsigned int size, sf::Color fillColor, sf::Color shadowColor, float offsetX, float offsetY) {
     sf::Text text(str, font, size);
     text.setFillColor(fillColor);
@@ -152,7 +147,7 @@ int main() {
 
     // Ustawienie stanu gry
     GameState gameState = MENU;
-    TicTacToe game;
+    Game game;
 
     // Ustawienia gry
     int boardSize = 3;
@@ -307,7 +302,8 @@ int main() {
     menuPrompt.setOutlineColor(sf::Color::Black);
     menuPrompt.setOutlineThickness(2);
 
-
+    int loop = true;
+	int counter = 0;
 
     while (window.isOpen())
     {
@@ -458,67 +454,45 @@ int main() {
 			drawBoard(window, game, font, boardSize);
 
             // Obsługa zdarzeń myszy
-            //if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                //sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                //int row = mousePos.y / (window.getSize().y / game.getBoardSize());
-                //int col = mousePos.x / (window.getSize().x / game.getBoardSize());
-                //bool validMove = false;
-
-                //while (!validMove) {
-                //    mousePos = sf::Mouse::getPosition(window);
-                //    row = mousePos.y / (window.getSize().y / game.getBoardSize());
-                //    col = mousePos.x / (window.getSize().x / game.getBoardSize());
-
-                //    validMove = game.playerMove(row, col);
-
-                //    window.clear();
-                //    drawBoard(window, game, font, boardSize);
-                //    window.display();
-
-                //    if (!validMove) {
-                //        sf::Event newEvent;
-                //        bool eventReceived = false;
-                //        while (!eventReceived) {
-                //            while (window.pollEvent(newEvent)) {
-                //                if (newEvent.type == sf::Event::MouseButtonPressed && newEvent.mouseButton.button == sf::Mouse::Left) {
-                //                    eventReceived = true;
-                //                    break;
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
-
-                //// Check for a win or draw
-                //char winner = game.checkWin('X') ? 'X' : game.checkWin('O') ? 'O' : ' ';
-                //if (winner != ' ' || game.isBoardFull()) {
-                //    gameState = GAME_OVER;
-                //}
-                //else {
-                //    gameState = WAITING_FOR_AI;
-                //}
-
-                //if (gameState == WAITING_FOR_AI && game.aiMove(aiDifficulty)) {
-                //    char winner = game.checkWin('X') ? 'X' : game.checkWin('O') ? 'O' : ' ';
-                //    if (winner != ' ' || game.isBoardFull()) {
-                //        gameState = GAME_OVER;
-                //    }
-                //    else {
-                //        gameState = PLAYING;
-                //    }
-                //}
-
-                if (game.ai2Move(HARD)) {
-                    char winner = game.checkWin('X') ? 'X' : game.checkWin('O') ? 'O' : ' ';
-                    if (winner != ' ' || game.isBoardFull()) {
-                        gameState = GAME_OVER;
-                    }
-                    else {
-                        gameState = WAITING_FOR_AI;
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                int row = mousePos.y / (window.getSize().y / game.getBoardSize());
+                int col = mousePos.x / (window.getSize().x / game.getBoardSize());
+                bool validMove = false;
+            
+                while (!validMove) {
+                    mousePos = sf::Mouse::getPosition(window);
+                    row = mousePos.y / (window.getSize().y / game.getBoardSize());
+                    col = mousePos.x / (window.getSize().x / game.getBoardSize());
+            
+                    validMove = game.playerMove(row, col);
+            
+                    window.clear();
+                    drawBoard(window, game, font, boardSize);
+                    window.display();
+            
+                    if (!validMove) {
+                        sf::Event newEvent;
+                        bool eventReceived = false;
+                        while (!eventReceived) {
+                            while (window.pollEvent(newEvent)) {
+                                if (newEvent.type == sf::Event::MouseButtonPressed && newEvent.mouseButton.button == sf::Mouse::Left) {
+                                    eventReceived = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
-                sf::sleep(sf::milliseconds(2000));
-
+            
+                char winner = game.checkWin('X') ? 'X' : game.checkWin('O') ? 'O' : ' ';
+                if (winner != ' ' || game.isBoardFull()) {
+                    gameState = GAME_OVER;
+                }
+                else {
+                    gameState = WAITING_FOR_AI;
+                }
+            
                 if (gameState == WAITING_FOR_AI && game.aiMove(aiDifficulty)) {
                     char winner = game.checkWin('X') ? 'X' : game.checkWin('O') ? 'O' : ' ';
                     if (winner != ' ' || game.isBoardFull()) {
@@ -529,7 +503,40 @@ int main() {
                     }
                 }
 
-            //}
+                //game.printStats(aiDifficulty);
+
+     //           if (game.ai2Move(ULTRA)) {
+     //               char winner = game.checkWin('X') ? 'X' : game.checkWin('O') ? 'O' : ' ';
+     //               if (winner != ' ' || game.isBoardFull()) {
+					//	counter++;
+					//	game.resetBoard();
+     //                   //gameState = GAME_OVER;
+     //               }
+     //               else {
+     //                   gameState = WAITING_FOR_AI;
+     //               }
+     //           }
+     //           //sf::sleep(sf::milliseconds(2000));
+
+     //           if (gameState == WAITING_FOR_AI && game.aiMove(aiDifficulty)) {
+     //               char winner = game.checkWin('X') ? 'X' : game.checkWin('O') ? 'O' : ' ';
+     //               if (winner != ' ' || game.isBoardFull()) {
+     //                   counter++;
+     //                   game.resetBoard();
+     //                   //gameState = GAME_OVER;
+     //               }
+     //               else {
+     //                   gameState = PLAYING;
+     //               }
+     //           }
+
+     //           game.printStats(aiDifficulty);
+
+     //           if (counter >= 500) {
+					//gameState = GAME_OVER;
+     //           }
+
+            }
         }
         else if (gameState == GAME_OVER) {
             // Check if it's a tie
