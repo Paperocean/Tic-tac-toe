@@ -50,6 +50,6 @@ To build and run this project, you'll need:
 - The game ends when a player gets the required number of marks in a row (win length) or when the board is full (tie).
 
 ## Future Improvements
-Multiplayer Mode: Add a local multiplayer option to allow two players to play on the same device.
-Online Multiplayer: Implement an online multiplayer mode.
-Improved AI: Make the AI more challenging and unpredictable.
+- **Multiplayer Mode**: Add a local multiplayer option to allow two players to play on the same device.
+- **Online Multiplayer**: Implement an online multiplayer mode.
+- **Improved AI**: Make the AI more challenging and unpredictable.
