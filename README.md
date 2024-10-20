@@ -20,22 +20,6 @@ To build and run this project, you'll need:
 - SFML 2.5+ (Simple and Fast Multimedia Library)
 - CMake (optional, for building)
 
-### Installation
-
-1. Install SFML from [SFML official site](https://www.sfml-dev.org/download.php).
-2. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/tic-tac-toe-sfml.git
-   cd tic-tac-toe-sfml
-   ```
-3. Compile the project:
-  ```bash
-  g++ main.cpp -o tictactoe -lsfml-graphics -lsfml-window -lsfml-system
-  ```
-4. Run the game:
-  ```bash
-  ./tictactoe
-  ```
 ## Controls
 - **Start Game**: Click the "Start Game" button to begin playing.
 - **Board Size**: Use the + and - buttons to adjust the board size.
